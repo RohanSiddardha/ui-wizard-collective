@@ -7,6 +7,8 @@ const OldVsNew = () => {
   const { elementRef: headerRef, isVisible: headerVisible } = useScrollAnimation();
   const { elementRef: contentRef, isVisible: contentVisible } = useScrollAnimation();
   const { elementRef: comparisonRef, isVisible: comparisonVisible } = useScrollAnimation();
+  const { elementRef: benefitsRef, isVisible: benefitsVisible } = useScrollAnimation();
+  const { elementRef: memeRef, isVisible: memeVisible } = useScrollAnimation();
 
   const comparisons = [
     {
@@ -64,7 +66,7 @@ const OldVsNew = () => {
         {/* Comparison Cards */}
         <div 
           ref={comparisonRef}
-          className={`space-y-8 mb-16 transition-all duration-1000 delay-300 ${
+          className={`space-y-8 mb-16 transition-all duration-1000 delay-200 ${
             comparisonVisible 
               ? 'opacity-100 translate-y-0' 
               : 'opacity-0 translate-y-10'
@@ -109,7 +111,7 @@ const OldVsNew = () => {
         {/* Main Content */}
         <div 
           ref={contentRef}
-          className={`transition-all duration-1000 delay-500 ${
+          className={`transition-all duration-1000 delay-400 ${
             contentVisible 
               ? 'opacity-100 translate-y-0' 
               : 'opacity-0 translate-y-10'
@@ -133,7 +135,14 @@ const OldVsNew = () => {
           </Card>
 
           {/* Benefits Grid */}
-          <div className="grid md:grid-cols-2 gap-8">
+          <div 
+            ref={benefitsRef}
+            className={`grid md:grid-cols-2 gap-8 mb-16 transition-all duration-1000 delay-500 ${
+              benefitsVisible 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-10'
+            }`}
+          >
             <Card className="bg-white/10 backdrop-blur-md border-white/20 p-6">
               <div className="text-center">
                 <div className="text-4xl mb-4">⚡</div>
@@ -173,6 +182,41 @@ const OldVsNew = () => {
                 </p>
               </div>
             </Card>
+          </div>
+
+          {/* Meme Section */}
+          <div 
+            ref={memeRef}
+            className={`text-center transition-all duration-1000 delay-600 ${
+              memeVisible 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-10'
+            }`}
+          >
+            <h2 className="text-3xl font-bold text-white mb-8">The Reality Check</h2>
+            <div className="grid md:grid-cols-2 gap-8">
+              <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8">
+                <img
+                  src="/lovable-uploads/ab99a6b3-1708-4bfd-afd9-cb3d4de962d3.png"
+                  alt="Frontend vs Backend Meme"
+                  className="w-full aspect-square object-cover rounded-lg mb-4"
+                />
+                <p className="text-white text-lg font-medium">
+                  "Frontend vs Backend: The eternal perspective difference 😄"
+                </p>
+              </Card>
+              
+              <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8">
+                <img
+                  src="/lovable-uploads/85b39025-975a-4f42-a9be-a848e06e2df5.png"
+                  alt="Frontend Developer Designer Meme"
+                  className="w-full aspect-square object-cover rounded-lg mb-4"
+                />
+                <p className="text-white text-lg font-medium">
+                  "After adding border-radius: 'I'm something of a designer myself' 🎨"
+                </p>
+              </Card>
+            </div>
           </div>
         </div>
       </div>

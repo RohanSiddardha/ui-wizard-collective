@@ -1,196 +1,157 @@
-import { useState } from "react";
+
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ExternalLink, Zap, Code, Users, Target } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const ModernTools = () => {
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const { elementRef: headerRef, isVisible: headerVisible } = useScrollAnimation();
   const { elementRef: takeawaysRef, isVisible: takeawaysVisible } = useScrollAnimation();
+  const { elementRef: workflowRef, isVisible: workflowVisible } = useScrollAnimation();
+  const { elementRef: toolsRef, isVisible: toolsVisible } = useScrollAnimation();
+  const { elementRef: memeRef, isVisible: memeVisible } = useScrollAnimation();
 
   const tools = [
     {
       name: "Anima",
-      category: "design-to-code",
-      description: "Converts Figma designs to React code automatically, bridging the gap between design and development.",
-      features: ["Figma Plugin", "React Output", "Responsive Code", "Component Library"],
-      pros: ["Time-saving", "Design accuracy", "Clean code output"],
-      cons: ["Limited customization", "Learning curve"],
-      rating: 4.5,
+      description: "Design-to-code automation tool that converts Figma designs into responsive React code",
+      features: ["Auto-generated React components", "Responsive layouts", "Clean, maintainable code", "Figma integration"],
+      category: "Design-to-Code",
       logo: "🎨",
-      color: "from-purple-500 to-blue-500"
-    },
-    {
-      name: "Lovable",
-      category: "ai-development",
-      description: "AI-powered development platform that generates React applications from natural language descriptions.",
-      features: ["AI Code Generation", "React Components", "Instant Preview", "Modern UI"],
-      pros: ["Rapid prototyping", "No coding required", "Modern output"],
-      cons: ["Limited control", "AI limitations"],
-      rating: 4.7,
-      logo: "🤖",
-      color: "from-pink-500 to-purple-500"
-    },
-    {
-      name: "Spline",
-      category: "3d-design",
-      description: "Browser-based 3D design tool for creating interactive 3D experiences and animations.",
-      features: ["3D Modeling", "Web Integration", "Real-time Collaboration", "Animation"],
-      pros: ["Browser-based", "Easy to learn", "Web-ready output"],
-      cons: ["Performance impact", "Limited complexity"],
-      rating: 4.3,
-      logo: "🌐",
-      color: "from-blue-500 to-green-500"
-    },
-    {
-      name: "Framer",
-      category: "prototyping",
-      description: "Advanced prototyping tool with real React components and sophisticated interactions.",
-      features: ["React Components", "Advanced Animations", "CMS", "Publishing"],
-      pros: ["Production-ready", "Advanced interactions", "No-code to code"],
-      cons: ["Steep learning curve", "Pricing"],
-      rating: 4.6,
-      logo: "⚡",
-      color: "from-indigo-500 to-purple-500"
-    },
-    {
-      name: "Figma",
-      category: "design",
-      description: "Collaborative interface design tool with powerful features for UI/UX design and prototyping.",
-      features: ["Collaborative Design", "Prototyping", "Dev Handoff", "Plugins"],
-      pros: ["Industry standard", "Great collaboration", "Extensive plugins"],
-      cons: ["Internet required", "Can be slow"],
-      rating: 4.8,
-      logo: "🎨",
-      color: "from-red-500 to-pink-500"
-    },
-    {
-      name: "ProtoPie",
-      category: "prototyping",
-      description: "Sensor-enabled prototyping for complex interactions and IoT device simulations.",
-      features: ["Sensor Input", "Complex Logic", "IoT Simulation", "Voice Commands"],
-      pros: ["Advanced interactions", "Realistic prototypes", "Sensor support"],
-      cons: ["Complex for beginners", "Specialized use cases"],
-      rating: 4.2,
-      logo: "🥧",
-      color: "from-orange-500 to-red-500"
-    },
-    {
-      name: "Webflow",
-      category: "web-development",
-      description: "Visual web development platform that generates clean, semantic HTML, CSS, and JavaScript.",
-      features: ["Visual Development", "CMS", "E-commerce", "SEO Tools"],
-      pros: ["No coding required", "Professional output", "Built-in CMS"],
-      cons: ["Learning curve", "Vendor lock-in"],
-      rating: 4.4,
-      logo: "🌊",
-      color: "from-teal-500 to-blue-500"
+      color: "from-purple-500 to-pink-500"
     },
     {
       name: "Tailwind CSS",
-      category: "styling",
-      description: "Utility-first CSS framework for rapidly building custom user interfaces.",
-      features: ["Utility Classes", "Responsive Design", "Dark Mode", "JIT Compiler"],
-      pros: ["Fast development", "Consistent design", "Small bundle size"],
-      cons: ["HTML verbosity", "Learning curve"],
-      rating: 4.9,
-      logo: "💨",
+      description: "Utility-first CSS framework for rapid UI development",
+      features: ["Utility classes", "Responsive design", "Dark mode support", "Custom design systems"],
+      category: "Styling",
+      logo: "🎨",
+      color: "from-blue-500 to-cyan-500"
+    },
+    {
+      name: "React",
+      description: "Component-based JavaScript library for building user interfaces",
+      features: ["Virtual DOM", "Component reusability", "Large ecosystem", "Strong community"],
+      category: "Framework",
+      logo: "⚛️",
       color: "from-cyan-500 to-blue-500"
+    },
+    {
+      name: "TypeScript",
+      description: "Typed superset of JavaScript that compiles to plain JavaScript",
+      features: ["Type safety", "Better IDE support", "Catch errors early", "Enhanced refactoring"],
+      category: "Language",
+      logo: "📝",
+      color: "from-blue-500 to-indigo-500"
+    },
+    {
+      name: "Vite",
+      description: "Next generation frontend build tool with lightning fast HMR",
+      features: ["Instant server start", "Lightning fast HMR", "Optimized builds", "Plugin ecosystem"],
+      category: "Build Tool",
+      logo: "⚡",
+      color: "from-yellow-500 to-orange-500"
+    },
+    {
+      name: "Shadcn/UI",
+      description: "Beautifully designed components built with Radix UI and Tailwind CSS",
+      features: ["Copy & paste components", "Accessible by default", "Customizable", "TypeScript support"],
+      category: "Component Library",
+      logo: "🧩",
+      color: "from-gray-500 to-slate-500"
     }
   ];
 
-  const categories = [
-    { key: "all", label: "All Tools", icon: "🛠️" },
-    { key: "design", label: "Design", icon: "🎨" },
-    { key: "prototyping", label: "Prototyping", icon: "⚡" },
-    { key: "design-to-code", label: "Design to Code", icon: "🔄" },
-    { key: "ai-development", label: "AI Development", icon: "🤖" },
-    { key: "3d-design", label: "3D Design", icon: "🌐" },
-    { key: "web-development", label: "Web Development", icon: "💻" },
-    { key: "styling", label: "Styling", icon: "💅" }
+  const takeaways = [
+    {
+      icon: <Zap className="w-8 h-8" />,
+      title: "Speed",
+      description: "Anima accelerates the UI build process by 70%",
+      color: "from-yellow-500 to-orange-500"
+    },
+    {
+      icon: <Target className="w-8 h-8" />,
+      title: "Accuracy",
+      description: "Fewer visual bugs, because I'm working from real designs, not just redlines",
+      color: "from-green-500 to-emerald-500"
+    },
+    {
+      icon: <Code className="w-8 h-8" />,
+      title: "Focus",
+      description: "I spend my energy on complex logic and performance instead of layout grunt work",
+      color: "from-blue-500 to-purple-500"
+    },
+    {
+      icon: <Users className="w-8 h-8" />,
+      title: "Team Benefit",
+      description: "It shortens the feedback loop between design and dev",
+      color: "from-purple-500 to-pink-500"
+    }
   ];
-
-  const filteredTools = selectedCategory === "all" 
-    ? tools 
-    : tools.filter(tool => tool.category === selectedCategory);
-
-  const renderStars = (rating: number) => {
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
-    
-    return (
-      <div className="flex items-center">
-        {[...Array(fullStars)].map((_, i) => (
-          <span key={i} className="text-yellow-400">⭐</span>
-        ))}
-        {hasHalfStar && <span className="text-yellow-400">⭐</span>}
-        <span className="ml-2 text-gray-300 text-sm">({rating})</span>
-      </div>
-    );
-  };
 
   return (
     <div className="min-h-screen pt-20 pb-12 px-4">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div 
+          ref={headerRef}
+          className={`text-center mb-16 transition-all duration-1000 ${
+            headerVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-            Modern <span className="text-purple-400">UI Tools</span>
+            Modern <span className="text-purple-400">Tools</span>
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Explore the cutting-edge tools that are revolutionizing how we design and build user interfaces in 2024 and beyond.
+            The cutting-edge stack that powers modern frontend development
           </p>
         </div>
 
-        {/* Key Takeaways Section */}
+        {/* Key Takeaways */}
         <div 
           ref={takeawaysRef}
-          className={`mb-16 transition-all duration-1000 ${
+          className={`mb-16 transition-all duration-1000 delay-200 ${
             takeawaysVisible 
               ? 'opacity-100 translate-y-0' 
               : 'opacity-0 translate-y-10'
           }`}
         >
-          <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8 mb-8">
-            <h2 className="text-3xl font-bold text-white mb-6 text-center">Key Takeaways to Emphasize</h2>
-            <div className="grid md:grid-cols-2 gap-6 mb-6">
-              <div className="space-y-4">
-                <div className="flex items-center space-x-3">
-                  <span className="text-2xl">⚡</span>
-                  <div>
-                    <h3 className="text-lg font-semibold text-white">Speed</h3>
-                    <p className="text-gray-300">"Anima accelerates the UI build process by 70%."</p>
+          <h2 className="text-3xl font-bold text-white text-center mb-8">Key Takeaways to Emphasize</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            {takeaways.map((takeaway, index) => (
+              <Card 
+                key={takeaway.title}
+                className="bg-white/10 backdrop-blur-md border-white/20 p-6 hover:bg-white/20 transition-all duration-300"
+              >
+                <div className="text-center">
+                  <div className={`w-16 h-16 rounded-full bg-gradient-to-r ${takeaway.color} mx-auto flex items-center justify-center text-white mb-4`}>
+                    {takeaway.icon}
                   </div>
+                  <h3 className="text-xl font-bold text-white mb-3">{takeaway.title}</h3>
+                  <p className="text-gray-300 text-sm leading-relaxed">{takeaway.description}</p>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <span className="text-2xl">🎯</span>
-                  <div>
-                    <h3 className="text-lg font-semibold text-white">Accuracy</h3>
-                    <p className="text-gray-300">"Fewer visual bugs, because I'm working from real designs, not just redlines."</p>
-                  </div>
-                </div>
-              </div>
-              <div className="space-y-4">
-                <div className="flex items-center space-x-3">
-                  <span className="text-2xl">🎯</span>
-                  <div>
-                    <h3 className="text-lg font-semibold text-white">Focus</h3>
-                    <p className="text-gray-300">"I spend my energy on complex logic and performance instead of layout grunt work."</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <span className="text-2xl">🤝</span>
-                  <div>
-                    <h3 className="text-lg font-semibold text-white">Team Benefit</h3>
-                    <p className="text-gray-300">"It shortens the feedback loop between design and dev."</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Card>
+              </Card>
+            ))}
+          </div>
+        </div>
 
+        {/* Workflow Optimization */}
+        <div 
+          ref={workflowRef}
+          className={`mb-16 transition-all duration-1000 delay-300 ${
+            workflowVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
           <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8">
-            <div className="text-gray-300 leading-relaxed space-y-4">
+            <h2 className="text-3xl font-bold text-white mb-6 text-center">
+              Workflow Optimization
+            </h2>
+            <div className="space-y-6 text-gray-300 leading-relaxed">
               <p className="text-lg">
                 One of the ways I've optimized my workflow is by using Anima, a design-to-code tool that lets me quickly generate responsive React code from Figma designs.
               </p>
@@ -204,175 +165,88 @@ const ModernTools = () => {
           </Card>
         </div>
 
-        {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {categories.map((category) => (
-            <Button
-              key={category.key}
-              onClick={() => setSelectedCategory(category.key)}
-              variant={selectedCategory === category.key ? "default" : "outline"}
-              className={`${
-                selectedCategory === category.key 
-                  ? "bg-purple-600 hover:bg-purple-700" 
-                  : "border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white"
-              } transition-all duration-300`}
-            >
-              <span className="mr-2">{category.icon}</span>
-              {category.label}
-            </Button>
-          ))}
-        </div>
-
         {/* Tools Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {filteredTools.map((tool, index) => (
-            <Card 
-              key={tool.name}
-              className="bg-white/10 backdrop-blur-md border-white/20 p-6 hover:bg-white/20 transition-all duration-300 transform hover:scale-105 group"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <div className="flex items-center mb-4">
-                <div className={`w-12 h-12 rounded-full bg-gradient-to-r ${tool.color} flex items-center justify-center text-2xl mr-4`}>
-                  {tool.logo}
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white">{tool.name}</h3>
-                  <Badge variant="secondary" className="bg-purple-500/20 text-purple-300 text-xs">
-                    {categories.find(c => c.key === tool.category)?.label}
+        <div 
+          ref={toolsRef}
+          className={`mb-16 transition-all duration-1000 delay-400 ${
+            toolsVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
+          <h2 className="text-3xl font-bold text-white text-center mb-12">Essential Tools</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {tools.map((tool, index) => (
+              <Card 
+                key={tool.name}
+                className="bg-white/10 backdrop-blur-md border-white/20 p-6 hover:bg-white/20 transition-all duration-300 group"
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${tool.color} flex items-center justify-center text-2xl`}>
+                    {tool.logo}
+                  </div>
+                  <Badge variant="outline" className="text-purple-400 border-purple-400">
+                    {tool.category}
                   </Badge>
                 </div>
-              </div>
-
-              <p className="text-gray-300 text-sm mb-4 leading-relaxed">{tool.description}</p>
-
-              <div className="mb-4">
-                <h4 className="text-white font-medium mb-2 text-sm">Key Features:</h4>
-                <div className="flex flex-wrap gap-1">
-                  {tool.features.map((feature) => (
-                    <Badge key={feature} variant="outline" className="border-purple-400/50 text-purple-300 text-xs">
+                
+                <h3 className="text-xl font-bold text-white mb-3">{tool.name}</h3>
+                <p className="text-gray-300 text-sm mb-4 leading-relaxed">{tool.description}</p>
+                
+                <ul className="space-y-2 mb-6">
+                  {tool.features.map((feature, featureIndex) => (
+                    <li key={featureIndex} className="flex items-center text-gray-300 text-sm">
+                      <span className="text-purple-400 mr-2">✓</span>
                       {feature}
-                    </Badge>
+                    </li>
                   ))}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <div>
-                  <h5 className="text-green-400 font-medium text-xs mb-1">Pros:</h5>
-                  <ul className="text-xs text-gray-300 space-y-1">
-                    {tool.pros.map((pro, i) => (
-                      <li key={i} className="flex items-center">
-                        <span className="text-green-400 mr-1">+</span>
-                        {pro}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h5 className="text-red-400 font-medium text-xs mb-1">Cons:</h5>
-                  <ul className="text-xs text-gray-300 space-y-1">
-                    {tool.cons.map((con, i) => (
-                      <li key={i} className="flex items-center">
-                        <span className="text-red-400 mr-1">-</span>
-                        {con}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              <div className="border-t border-white/20 pt-4">
-                {renderStars(tool.rating)}
-              </div>
-            </Card>
-          ))}
-        </div>
-
-        {/* Comparison Chart */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-white text-center mb-8">Quick Comparison</h2>
-          <Card className="bg-white/10 backdrop-blur-md border-white/20 p-6 overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-white/20">
-                  <th className="text-left text-white font-medium py-3">Tool</th>
-                  <th className="text-left text-white font-medium py-3">Best For</th>
-                  <th className="text-left text-white font-medium py-3">Learning Curve</th>
-                  <th className="text-left text-white font-medium py-3">Rating</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tools.slice(0, 5).map((tool) => (
-                  <tr key={tool.name} className="border-b border-white/10">
-                    <td className="py-3">
-                      <div className="flex items-center">
-                        <span className="mr-2">{tool.logo}</span>
-                        <span className="text-white font-medium">{tool.name}</span>
-                      </div>
-                    </td>
-                    <td className="text-gray-300 py-3">{tool.features[0]}</td>
-                    <td className="py-3">
-                      <Badge 
-                        variant="secondary" 
-                        className={`${
-                          tool.rating > 4.5 ? 'bg-green-500/20 text-green-300' :
-                          tool.rating > 4.0 ? 'bg-yellow-500/20 text-yellow-300' :
-                          'bg-red-500/20 text-red-300'
-                        }`}
-                      >
-                        {tool.rating > 4.5 ? 'Easy' : tool.rating > 4.0 ? 'Medium' : 'Advanced'}
-                      </Badge>
-                    </td>
-                    <td className="py-3">
-                      <span className="text-yellow-400">★ {tool.rating}</span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </Card>
-        </div>
-
-        {/* Future Trends */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-white mb-8">Future of UI Tools</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="bg-white/10 backdrop-blur-md border-white/20 p-6">
-              <div className="text-4xl mb-4">🤖</div>
-              <h3 className="text-xl font-bold text-white mb-3">AI-Powered Design</h3>
-              <p className="text-gray-300 text-sm">
-                AI will generate complete interfaces from simple descriptions, making design accessible to everyone.
-              </p>
-            </Card>
-            <Card className="bg-white/10 backdrop-blur-md border-white/20 p-6">
-              <div className="text-4xl mb-4">🥽</div>
-              <h3 className="text-xl font-bold text-white mb-3">Spatial Computing</h3>
-              <p className="text-gray-300 text-sm">
-                AR/VR interfaces will require new design paradigms and tools for 3D spatial experiences.
-              </p>
-            </Card>
-            <Card className="bg-white/10 backdrop-blur-md border-white/20 p-6">
-              <div className="text-4xl mb-4">⚡</div>
-              <h3 className="text-xl font-bold text-white mb-3">Real-time Collaboration</h3>
-              <p className="text-gray-300 text-sm">
-                Design and development will merge into unified platforms with instant synchronization.
-              </p>
-            </Card>
+                </ul>
+                
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full group-hover:bg-purple-400 group-hover:text-white transition-colors"
+                >
+                  Learn More <ExternalLink className="w-4 h-4 ml-2" />
+                </Button>
+              </Card>
+            ))}
           </div>
         </div>
 
         {/* Meme Section */}
-        <div className="text-center">
-          <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8 max-w-2xl mx-auto">
-            <img
-              src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=500&h=300&fit=crop"
-              alt="Modern Tools Meme"
-              className="w-full h-48 object-cover rounded-lg mb-4"
-            />
-            <p className="text-white text-lg font-medium">
-              "When you discover a new UI tool that does everything" 🤯
-            </p>
-          </Card>
+        <div 
+          ref={memeRef}
+          className={`text-center transition-all duration-1000 delay-500 ${
+            memeVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
+          <h2 className="text-3xl font-bold text-white mb-8">Developer Life</h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8">
+              <img
+                src="/lovable-uploads/95e5f2c7-e1f7-4973-b922-3fe40b08fd13.png"
+                alt="Frontend Developer Responsibilities"
+                className="w-full aspect-square object-cover rounded-lg mb-4"
+              />
+              <p className="text-white text-lg font-medium">
+                "Managing all these modern tools like... 🐕‍🦺"
+              </p>
+            </Card>
+            
+            <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8">
+              <img
+                src="/lovable-uploads/3164b0d3-be03-44e6-a56f-46604753b888.png"
+                alt="Frontend vs Backend Complexity"
+                className="w-full aspect-square object-cover rounded-lg mb-4"
+              />
+              <p className="text-white text-lg font-medium">
+                "So you're telling me you can't handle this in the frontend? 😏"
+              </p>
+            </Card>
+          </div>
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -13,6 +14,11 @@ const UIImportance = () => {
 
   const [currentStat, setCurrentStat] = useState(0);
   const { elementRef: frontendRef, isVisible: frontendVisible } = useScrollAnimation();
+  const { elementRef: statsRef, isVisible: statsVisible } = useScrollAnimation();
+  const { elementRef: progressRef, isVisible: progressVisible } = useScrollAnimation();
+  const { elementRef: principlesRef, isVisible: principlesVisible } = useScrollAnimation();
+  const { elementRef: caseStudyRef, isVisible: caseStudyVisible } = useScrollAnimation();
+  const { elementRef: memeRef, isVisible: memeVisible } = useScrollAnimation();
 
   const stats = [
     { 
@@ -138,7 +144,14 @@ const UIImportance = () => {
         </div>
 
         {/* Animated Stats */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
+        <div 
+          ref={statsRef}
+          className={`grid md:grid-cols-3 gap-8 mb-16 transition-all duration-1000 ${
+            statsVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
           {stats.map((stat, index) => (
             <Card 
               key={stat.title}
@@ -159,7 +172,14 @@ const UIImportance = () => {
         </div>
 
         {/* Progress Indicators */}
-        <div className="mb-16">
+        <div 
+          ref={progressRef}
+          className={`mb-16 transition-all duration-1000 delay-200 ${
+            progressVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
           <h2 className="text-3xl font-bold text-white text-center mb-8">Impact Metrics</h2>
           <div className="space-y-6 max-w-2xl mx-auto">
             <div>
@@ -187,7 +207,14 @@ const UIImportance = () => {
         </div>
 
         {/* Principles Section */}
-        <div className="space-y-12 mb-16">
+        <div 
+          ref={principlesRef}
+          className={`space-y-12 mb-16 transition-all duration-1000 delay-300 ${
+            principlesVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
           {principles.map((principle, index) => (
             <Card 
               key={principle.title}
@@ -222,7 +249,7 @@ const UIImportance = () => {
         {/* Frontend Developer Importance Section */}
         <div 
           ref={frontendRef}
-          className={`mb-16 transition-all duration-1000 ${
+          className={`mb-16 transition-all duration-1000 delay-400 ${
             frontendVisible 
               ? 'opacity-100 translate-y-0' 
               : 'opacity-0 translate-y-10'
@@ -254,39 +281,46 @@ const UIImportance = () => {
           <div className="grid md:grid-cols-2 gap-8 mb-8">
             <Card className="bg-white/10 backdrop-blur-md border-white/20 p-6">
               <img
-                src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=400&fit=crop"
-                alt="Frontend Developer Reality"
-                className="w-full h-64 object-cover rounded-lg mb-4"
+                src="/lovable-uploads/ab99a6b3-1708-4bfd-afd9-cb3d4de962d3.png"
+                alt="Frontend vs Backend Developer Meme"
+                className="w-full aspect-square object-cover rounded-lg mb-4"
               />
               <p className="text-white text-lg font-medium text-center">
-                "When the designer says 'just make it pop' 💥"
+                "The eternal struggle: Frontend vs Backend 😄"
               </p>
             </Card>
             
             <Card className="bg-white/10 backdrop-blur-md border-white/20 p-6">
               <img
-                src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=400&fit=crop"
-                alt="Frontend vs Backend"
-                className="w-full h-64 object-cover rounded-lg mb-4"
+                src="/lovable-uploads/85b39025-975a-4f42-a9be-a848e06e2df5.png"
+                alt="Frontend Developer Border Radius Meme"
+                className="w-full aspect-square object-cover rounded-lg mb-4"
               />
               <p className="text-white text-lg font-medium text-center">
-                "Frontend: Where magic meets reality ✨"
+                "When you apply border-radius and suddenly you're a designer 🎨"
               </p>
             </Card>
           </div>
         </div>
 
         {/* Case Study Example */}
-        <div className="text-center mb-16">
+        <div 
+          ref={caseStudyRef}
+          className={`text-center mb-16 transition-all duration-1000 delay-500 ${
+            caseStudyVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
           <h2 className="text-3xl font-bold text-white mb-8">Real Impact Example</h2>
           <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8 max-w-4xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8">
               <div>
                 <h3 className="text-xl font-bold text-red-400 mb-4">Before: Poor UI</h3>
                 <img
-                  src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=250&fit=crop"
+                  src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=400&fit=crop"
                   alt="Before UI"
-                  className="w-full h-48 object-cover rounded-lg mb-4 grayscale"
+                  className="w-full aspect-square object-cover rounded-lg mb-4 grayscale"
                 />
                 <div className="space-y-2 text-left">
                   <div className="flex justify-between">
@@ -306,9 +340,9 @@ const UIImportance = () => {
               <div>
                 <h3 className="text-xl font-bold text-green-400 mb-4">After: Great UI</h3>
                 <img
-                  src="https://images.unsplash.com/photo-1460574283810-2aab119d8511?w=400&h=250&fit=crop"
+                  src="https://images.unsplash.com/photo-1460574283810-2aab119d8511?w=400&h=400&fit=crop"
                   alt="After UI"
-                  className="w-full h-48 object-cover rounded-lg mb-4"
+                  className="w-full aspect-square object-cover rounded-lg mb-4"
                 />
                 <div className="space-y-2 text-left">
                   <div className="flex justify-between">
@@ -329,18 +363,38 @@ const UIImportance = () => {
           </Card>
         </div>
 
-        {/* Meme Section */}
-        <div className="text-center">
-          <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8 max-w-2xl mx-auto">
-            <img
-              src="https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=500&h=300&fit=crop"
-              alt="UI Success Meme"
-              className="w-full h-48 object-cover rounded-lg mb-4"
-            />
-            <p className="text-white text-lg font-medium">
-              "When your UI reduces bounce rates by 50%" 🎉
-            </p>
-          </Card>
+        {/* Final Meme Section */}
+        <div 
+          ref={memeRef}
+          className={`text-center transition-all duration-1000 delay-600 ${
+            memeVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
+          <div className="grid md:grid-cols-2 gap-8">
+            <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8">
+              <img
+                src="/lovable-uploads/95e5f2c7-e1f7-4973-b922-3fe40b08fd13.png"
+                alt="Frontend Developer Responsibilities Meme"
+                className="w-full aspect-square object-cover rounded-lg mb-4"
+              />
+              <p className="text-white text-lg font-medium">
+                "Just another day in the life of a frontend developer 🐕‍🦺"
+              </p>
+            </Card>
+            
+            <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8">
+              <img
+                src="/lovable-uploads/3164b0d3-be03-44e6-a56f-46604753b888.png"
+                alt="Frontend Developer Challenge Meme"
+                className="w-full aspect-square object-cover rounded-lg mb-4"
+              />
+              <p className="text-white text-lg font-medium">
+                "When they say 'it's just a frontend change' 😅"
+              </p>
+            </Card>
+          </div>
         </div>
       </div>
     </div>
