@@ -1,11 +1,12 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const ModernTools = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const { elementRef: takeawaysRef, isVisible: takeawaysVisible } = useScrollAnimation();
 
   const tools = [
     {
@@ -139,6 +140,68 @@ const ModernTools = () => {
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Explore the cutting-edge tools that are revolutionizing how we design and build user interfaces in 2024 and beyond.
           </p>
+        </div>
+
+        {/* Key Takeaways Section */}
+        <div 
+          ref={takeawaysRef}
+          className={`mb-16 transition-all duration-1000 ${
+            takeawaysVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
+          <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8 mb-8">
+            <h2 className="text-3xl font-bold text-white mb-6 text-center">Key Takeaways to Emphasize</h2>
+            <div className="grid md:grid-cols-2 gap-6 mb-6">
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <span className="text-2xl">⚡</span>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">Speed</h3>
+                    <p className="text-gray-300">"Anima accelerates the UI build process by 70%."</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <span className="text-2xl">🎯</span>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">Accuracy</h3>
+                    <p className="text-gray-300">"Fewer visual bugs, because I'm working from real designs, not just redlines."</p>
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <span className="text-2xl">🎯</span>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">Focus</h3>
+                    <p className="text-gray-300">"I spend my energy on complex logic and performance instead of layout grunt work."</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <span className="text-2xl">🤝</span>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">Team Benefit</h3>
+                    <p className="text-gray-300">"It shortens the feedback loop between design and dev."</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8">
+            <div className="text-gray-300 leading-relaxed space-y-4">
+              <p className="text-lg">
+                One of the ways I've optimized my workflow is by using Anima, a design-to-code tool that lets me quickly generate responsive React code from Figma designs.
+              </p>
+              <p className="text-lg">
+                This gives me a huge edge — I don't waste time recreating layouts manually or second-guessing spacing. Instead, I spend that saved time focusing on interactivity, performance, and edge cases.
+              </p>
+              <p className="text-lg">
+                It also improves team velocity — less designer-developer back-and-forth, faster delivery, and more confidence in the final product.
+              </p>
+            </div>
+          </Card>
         </div>
 
         {/* Category Filter */}

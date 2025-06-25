@@ -11,6 +11,7 @@ export const Navigation = () => {
     { path: "/", label: "Home" },
     { path: "/ui-importance", label: "Why UI Matters" },
     { path: "/modern-tools", label: "Modern Tools" },
+    { path: "/old-vs-new", label: "Old vs New" },
   ];
 
   return (

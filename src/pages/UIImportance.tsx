@@ -1,8 +1,8 @@
-
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const UIImportance = () => {
   const [counters, setCounters] = useState({
@@ -12,6 +12,7 @@ const UIImportance = () => {
   });
 
   const [currentStat, setCurrentStat] = useState(0);
+  const { elementRef: frontendRef, isVisible: frontendVisible } = useScrollAnimation();
 
   const stats = [
     { 
@@ -87,6 +88,39 @@ const UIImportance = () => {
         "Trust signals boost purchase confidence"
       ],
       color: "from-pink-500 to-red-500"
+    }
+  ];
+
+  const frontendImportance = [
+    {
+      title: "First Impression",
+      description: "It's the user's first and most lasting interaction",
+      icon: "👁️",
+      color: "from-blue-500 to-purple-500"
+    },
+    {
+      title: "User Experience",
+      description: "UX decisions directly affect satisfaction and retention",
+      icon: "🧭",
+      color: "from-purple-500 to-pink-500"
+    },
+    {
+      title: "Bridge Between Design & Function",
+      description: "Translates product vision into reality",
+      icon: "⚙️",
+      color: "from-pink-500 to-red-500"
+    },
+    {
+      title: "Performance & Accessibility",
+      description: "Impacts usability, reach, and SEO",
+      icon: "🚀",
+      color: "from-red-500 to-orange-500"
+    },
+    {
+      title: "Direct Business Impact",
+      description: "A polished frontend boosts conversion and trust",
+      icon: "💡",
+      color: "from-orange-500 to-yellow-500"
     }
   ];
 
@@ -183,6 +217,63 @@ const UIImportance = () => {
               </div>
             </Card>
           ))}
+        </div>
+
+        {/* Frontend Developer Importance Section */}
+        <div 
+          ref={frontendRef}
+          className={`mb-16 transition-all duration-1000 ${
+            frontendVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
+          <h2 className="text-4xl font-bold text-white text-center mb-8">
+            Why <span className="text-purple-400">Frontend Developers</span> Are Crucial
+          </h2>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {frontendImportance.map((item, index) => (
+              <Card 
+                key={item.title}
+                className="bg-white/10 backdrop-blur-md border-white/20 p-6 hover:bg-white/20 transition-all duration-300 transform hover:scale-105"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="text-center">
+                  <div className={`w-16 h-16 rounded-full bg-gradient-to-r ${item.color} mx-auto flex items-center justify-center text-3xl mb-4`}>
+                    {item.icon}
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
+                  <p className="text-gray-300 text-sm leading-relaxed">{item.description}</p>
+                </div>
+              </Card>
+            ))}
+          </div>
+
+          {/* Frontend Developer Memes */}
+          <div className="grid md:grid-cols-2 gap-8 mb-8">
+            <Card className="bg-white/10 backdrop-blur-md border-white/20 p-6">
+              <img
+                src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=400&fit=crop"
+                alt="Frontend Developer Reality"
+                className="w-full h-64 object-cover rounded-lg mb-4"
+              />
+              <p className="text-white text-lg font-medium text-center">
+                "When the designer says 'just make it pop' 💥"
+              </p>
+            </Card>
+            
+            <Card className="bg-white/10 backdrop-blur-md border-white/20 p-6">
+              <img
+                src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=400&fit=crop"
+                alt="Frontend vs Backend"
+                className="w-full h-64 object-cover rounded-lg mb-4"
+              />
+              <p className="text-white text-lg font-medium text-center">
+                "Frontend: Where magic meets reality ✨"
+              </p>
+            </Card>
+          </div>
         </div>
 
         {/* Case Study Example */}

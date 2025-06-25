@@ -7,11 +7,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navigation } from "./components/Navigation";
 import { ProgressBar } from "./components/ProgressBar";
 import Index from "./pages/Index";
-import About from "./pages/About";
-import Portfolio from "./pages/Portfolio";
-import Contact from "./pages/Contact";
 import UIImportance from "./pages/UIImportance";
 import ModernTools from "./pages/ModernTools";
+import OldVsNew from "./pages/OldVsNew";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,11 +25,9 @@ const App = () => (
           <Navigation />
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/contact" element={<Contact />} />
             <Route path="/ui-importance" element={<UIImportance />} />
             <Route path="/modern-tools" element={<ModernTools />} />
+            <Route path="/old-vs-new" element={<OldVsNew />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
