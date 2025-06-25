@@ -5,14 +5,21 @@ import { ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { SpinWheel } from "@/components/games/SpinWheel";
-import { CarGame } from "@/components/games/CarGame";
+import { WordGame } from "@/components/games/WordGame";
 import { MemoryGame } from "@/components/games/MemoryGame";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const Index = () => {
   const [typewriterText, setTypewriterText] = useState("");
   const fullText = "Rohan, Ashrith & Mahesh";
   const [showConfetti, setShowConfetti] = useState(false);
-  const [currentGame, setCurrentGame] = useState<'wheel' | 'car' | 'memory' | null>(null);
+  const [currentGame, setCurrentGame] = useState<'wheel' | 'word' | 'memory' | null>(null);
+
+  // Scroll animations for different sections
+  const teamSection = useScrollAnimation(0.2);
+  const gamesSection = useScrollAnimation(0.2);
+  const memeSection = useScrollAnimation(0.2);
+  const ctaSection = useScrollAnimation(0.2);
 
   useEffect(() => {
     let index = 0;
@@ -33,6 +40,12 @@ const Index = () => {
     setTimeout(() => setShowConfetti(false), 3000);
     document.getElementById("interactive-section")?.scrollIntoView({ behavior: "smooth" });
   };
+
+  const teamMembers = [
+    { name: "Rohan Siddardha", role: "UI Developer", skill: "3D Button Specialist" },
+    { name: "Ashrith Reddy", role: "UI Developer", skill: "CSS Gradient Master" },
+    { name: "Mahesh Yadav", role: "UI Developer", skill: "Micro-interaction Expert" }
+  ];
 
   return (
     <div className="min-h-screen">
@@ -80,16 +93,65 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Team Names Section */}
+      <section className="py-20 px-4">
+        <div 
+          ref={teamSection.elementRef}
+          className={`max-w-6xl mx-auto transition-all duration-1000 ${
+            teamSection.isVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
+          <h2 className="text-4xl md:text-6xl font-bold text-center text-white mb-16">
+            Meet the <span className="text-purple-400">UI Team</span>
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {teamMembers.map((member, index) => (
+              <Card 
+                key={member.name}
+                className={`bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/20 transition-all duration-500 transform hover:scale-105 ${
+                  teamSection.isVisible 
+                    ? 'opacity-100 translate-y-0' 
+                    : 'opacity-0 translate-y-10'
+                }`}
+                style={{ transitionDelay: `${index * 200}ms` }}
+              >
+                <div className="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center text-2xl font-bold text-white">
+                  {member.name.split(' ').map(n => n[0]).join('')}
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">{member.name}</h3>
+                <p className="text-purple-300 mb-2">{member.role}</p>
+                <p className="text-gray-300 text-sm">{member.skill}</p>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Interactive Games Section */}
       <section id="interactive-section" className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl md:text-6xl font-bold text-center text-white mb-16 animate-fade-in">
+        <div 
+          ref={gamesSection.elementRef}
+          className={`max-w-6xl mx-auto transition-all duration-1000 ${
+            gamesSection.isVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
+          <h2 className="text-4xl md:text-6xl font-bold text-center text-white mb-16">
             Interactive <span className="text-purple-400">UI Games</span>
           </h2>
 
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             <Card 
-              className="bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/20 transition-all duration-300 transform hover:scale-105 cursor-pointer"
+              className={`bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/20 transition-all duration-500 transform hover:scale-105 cursor-pointer ${
+                gamesSection.isVisible 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-10'
+              }`}
+              style={{ transitionDelay: '200ms' }}
               onClick={() => setCurrentGame('wheel')}
             >
               <div className="text-6xl mb-4">🎯</div>
@@ -98,16 +160,26 @@ const Index = () => {
             </Card>
 
             <Card 
-              className="bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/20 transition-all duration-300 transform hover:scale-105 cursor-pointer"
-              onClick={() => setCurrentGame('car')}
+              className={`bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/20 transition-all duration-500 transform hover:scale-105 cursor-pointer ${
+                gamesSection.isVisible 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-10'
+              }`}
+              style={{ transitionDelay: '400ms' }}
+              onClick={() => setCurrentGame('word')}
             >
-              <div className="text-6xl mb-4">🏎️</div>
-              <h3 className="text-xl font-bold text-white mb-2">Racing Game</h3>
-              <p className="text-gray-300">Navigate through UI challenges!</p>
+              <div className="text-6xl mb-4">🔤</div>
+              <h3 className="text-xl font-bold text-white mb-2">Word Guessing</h3>
+              <p className="text-gray-300">Guess UI terms and learn!</p>
             </Card>
 
             <Card 
-              className="bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/20 transition-all duration-300 transform hover:scale-105 cursor-pointer"
+              className={`bg-white/10 backdrop-blur-md border-white/20 p-6 text-center hover:bg-white/20 transition-all duration-500 transform hover:scale-105 cursor-pointer ${
+                gamesSection.isVisible 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-10'
+              }`}
+              style={{ transitionDelay: '600ms' }}
               onClick={() => setCurrentGame('memory')}
             >
               <div className="text-6xl mb-4">🧠</div>
@@ -123,7 +195,7 @@ const Index = () => {
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-2xl font-bold text-white">
                     {currentGame === 'wheel' && 'Spin the Wheel'}
-                    {currentGame === 'car' && 'Racing Game'}
+                    {currentGame === 'word' && 'Word Guessing Game'}
                     {currentGame === 'memory' && 'Memory Match'}
                   </h3>
                   <Button 
@@ -136,14 +208,21 @@ const Index = () => {
                 </div>
                 
                 {currentGame === 'wheel' && <SpinWheel />}
-                {currentGame === 'car' && <CarGame />}
+                {currentGame === 'word' && <WordGame />}
                 {currentGame === 'memory' && <MemoryGame />}
               </div>
             </div>
           )}
 
           {/* Fun Meme Section */}
-          <div className="mt-20 text-center">
+          <div 
+            ref={memeSection.elementRef}
+            className={`mt-20 text-center transition-all duration-1000 ${
+              memeSection.isVisible 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-10'
+            }`}
+          >
             <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8 max-w-2xl mx-auto transform hover:scale-105 transition-all duration-300">
               <img
                 src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&h=300&fit=crop"
@@ -157,17 +236,24 @@ const Index = () => {
           </div>
 
           {/* CTA Section */}
-          <div className="mt-20 text-center">
-            <h3 className="text-3xl font-bold text-white mb-8 animate-fade-in">Ready to explore our work?</h3>
+          <div 
+            ref={ctaSection.elementRef}
+            className={`mt-20 text-center transition-all duration-1000 ${
+              ctaSection.isVisible 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-10'
+            }`}
+          >
+            <h3 className="text-3xl font-bold text-white mb-8">Ready to explore our expertise?</h3>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link to="/about">
+              <Link to="/ui-importance">
                 <Button className="bg-purple-600 hover:bg-purple-700 text-white transform hover:scale-105 transition-all duration-300">
-                  Learn About Us
+                  Why UI Matters
                 </Button>
               </Link>
-              <Link to="/portfolio">
+              <Link to="/modern-tools">
                 <Button variant="outline" className="border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white transform hover:scale-105 transition-all duration-300">
-                  View Portfolio
+                  Modern Tools
                 </Button>
               </Link>
             </div>
