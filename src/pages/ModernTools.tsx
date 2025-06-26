@@ -1,13 +1,14 @@
+
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { ExternalLink, Zap, Code, Palette, Smartphone, Gauge, Users } from "lucide-react";
+import { ExternalLink, Zap, Code, Palette, Smartphone, Gauge, Users, Sparkles, Heart } from "lucide-react";
 
 const ModernTools = () => {
   const { elementRef: headerRef, animationClasses: headerClasses } = useScrollAnimation(0.1, 'fade-up');
-  const { elementRef: takeawaysRef, animationClasses: takeawaysClasses } = useScrollAnimation(0.1, 'fade-left');
-  const { elementRef: animaRef, animationClasses: animaClasses } = useScrollAnimation(0.1, 'scale');
+  const { elementRef: takeawaysRef, animationClasses: takeawaysClasses } = useScrollAnimation(0.1, 'fade-up');
+  const { elementRef: animaRef, animationClasses: animaClasses } = useScrollAnimation(0.1, 'fade-up');
   const { elementRef: toolsRef, animationClasses: toolsClasses } = useScrollAnimation(0.1, 'fade-up');
   const { elementRef: memeRef, animationClasses: memeClasses } = useScrollAnimation(0.1, 'fade-up');
 
@@ -20,6 +21,24 @@ const ModernTools = () => {
       rating: 5,
       color: "from-purple-500 to-pink-500",
       icon: <Code size={20} />,
+    },
+    {
+      name: "Lovable",
+      category: "AI Development",
+      description: "Build full-stack applications with AI assistance. Generate React components, handle state management, and create responsive designs.",
+      features: ["AI Code Generation", "React Components", "Real-time Preview", "Full-stack Support"],
+      rating: 5,
+      color: "from-pink-500 to-rose-500",
+      icon: <Heart size={20} />,
+    },
+    {
+      name: "Spline",
+      category: "3D Design",
+      description: "Create interactive 3D experiences for web. Design, animate, and export 3D content directly for React applications.",
+      features: ["3D Modeling", "Web Animations", "React Integration", "Interactive Scenes"],
+      rating: 4,
+      color: "from-indigo-500 to-purple-500",
+      icon: <Sparkles size={20} />,
     },
     {
       name: "Storybook",
@@ -74,7 +93,7 @@ const ModernTools = () => {
 
         {/* Key Takeaways Section */}
         <div ref={takeawaysRef} className={`mb-16 ${takeawaysClasses}`}>
-          <Card className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-md border-white/20 p-8">
+          <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8">
             <h2 className="text-3xl font-bold text-white mb-6 text-center">Key Takeaways to Emphasize</h2>
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-4">
@@ -115,7 +134,7 @@ const ModernTools = () => {
 
         {/* Anima Section */}
         <div ref={animaRef} className={`mb-16 ${animaClasses}`}>
-          <Card className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-md border-white/20 p-8">
+          <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8">
             <h2 className="text-3xl font-bold text-white mb-6 text-center">My Secret Weapon: Anima</h2>
             <p className="text-lg text-gray-300 leading-relaxed text-center max-w-4xl mx-auto">
               "One of the ways I've optimized my workflow is by using Anima, a design-to-code tool that lets me quickly generate responsive React code from Figma designs. This gives me a huge edge — I don't waste time recreating layouts manually or second-guessing spacing. Instead, I spend that saved time focusing on interactivity, performance, and edge cases. It also improves team velocity — less designer-developer back-and-forth, faster delivery, and more confidence in the final product."

@@ -14,12 +14,12 @@ const UIImportance = () => {
   });
 
   const [currentStat, setCurrentStat] = useState(0);
-  const { elementRef: frontendRef, isVisible: frontendVisible } = useScrollAnimation();
-  const { elementRef: statsRef, isVisible: statsVisible } = useScrollAnimation();
-  const { elementRef: progressRef, isVisible: progressVisible } = useScrollAnimation();
-  const { elementRef: principlesRef, isVisible: principlesVisible } = useScrollAnimation();
-  const { elementRef: caseStudyRef, isVisible: caseStudyVisible } = useScrollAnimation();
-  const { elementRef: memeRef, isVisible: memeVisible } = useScrollAnimation();
+  const { elementRef: frontendRef, animationClasses: frontendClasses } = useScrollAnimation(0.1, 'fade-up');
+  const { elementRef: statsRef, animationClasses: statsClasses } = useScrollAnimation(0.1, 'fade-up');
+  const { elementRef: progressRef, animationClasses: progressClasses } = useScrollAnimation(0.1, 'fade-up');
+  const { elementRef: principlesRef, animationClasses: principlesClasses } = useScrollAnimation(0.1, 'fade-up');
+  const { elementRef: caseStudyRef, animationClasses: caseStudyClasses } = useScrollAnimation(0.1, 'fade-up');
+  const { elementRef: memeRef, animationClasses: memeClasses } = useScrollAnimation(0.1, 'fade-up');
 
   const stats = [
     { 
@@ -136,23 +136,16 @@ const UIImportance = () => {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 transition-all duration-1000 opacity-0 translate-y-10 animate-fade-in">
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
             Why <span className="text-purple-400">UI</span> is Everything
           </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed transition-all duration-1000 delay-200 opacity-0 translate-y-10 animate-fade-in">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             In today's digital world, your user interface isn't just a pretty face—it's your most powerful business tool.
           </p>
         </div>
 
         {/* Animated Stats */}
-        <div 
-          ref={statsRef}
-          className={`grid md:grid-cols-3 gap-8 mb-16 transition-all duration-1000 ${
-            statsVisible 
-              ? 'opacity-100 translate-y-0' 
-              : 'opacity-0 translate-y-10'
-          }`}
-        >
+        <div ref={statsRef} className={`grid md:grid-cols-3 gap-8 mb-16 ${statsClasses}`}>
           {stats.map((stat, index) => (
             <Card 
               key={stat.title}
@@ -173,14 +166,7 @@ const UIImportance = () => {
         </div>
 
         {/* Progress Indicators */}
-        <div 
-          ref={progressRef}
-          className={`mb-16 transition-all duration-1000 delay-200 ${
-            progressVisible 
-              ? 'opacity-100 translate-y-0' 
-              : 'opacity-0 translate-y-10'
-          }`}
-        >
+        <div ref={progressRef} className={`mb-16 ${progressClasses}`}>
           <h2 className="text-3xl font-bold text-white text-center mb-8">Impact Metrics</h2>
           <div className="space-y-6 max-w-2xl mx-auto">
             <div>
@@ -208,14 +194,7 @@ const UIImportance = () => {
         </div>
 
         {/* Principles Section */}
-        <div 
-          ref={principlesRef}
-          className={`space-y-12 mb-16 transition-all duration-1000 delay-300 ${
-            principlesVisible 
-              ? 'opacity-100 translate-y-0' 
-              : 'opacity-0 translate-y-10'
-          }`}
-        >
+        <div ref={principlesRef} className={`space-y-12 mb-16 ${principlesClasses}`}>
           {principles.map((principle, index) => (
             <Card 
               key={principle.title}
@@ -248,14 +227,7 @@ const UIImportance = () => {
         </div>
 
         {/* Frontend Developer Importance Section */}
-        <div 
-          ref={frontendRef}
-          className={`mb-16 transition-all duration-1000 delay-400 ${
-            frontendVisible 
-              ? 'opacity-100 translate-y-0' 
-              : 'opacity-0 translate-y-10'
-          }`}
-        >
+        <div ref={frontendRef} className={`mb-16 ${frontendClasses}`}>
           <h2 className="text-4xl font-bold text-white text-center mb-8">
             Why <span className="text-purple-400">Frontend Developers</span> Are Crucial
           </h2>
@@ -284,7 +256,7 @@ const UIImportance = () => {
               <img
                 src="/lovable-uploads/ab99a6b3-1708-4bfd-afd9-cb3d4de962d3.png"
                 alt="Frontend vs Backend Developer Meme"
-                className="w-full aspect-square object-cover rounded-lg mb-4 transition-all duration-500 hover:scale-110 hover:rotate-2 hover:shadow-2xl hover:brightness-110 hover:contrast-110 cursor-pointer"
+                className="w-full aspect-square object-cover rounded-lg mb-4 transition-all duration-500 hover:scale-110 hover:rotate-2 hover:shadow-2xl hover:brightness-110 hover:contrast-110 hover:saturate-150 cursor-pointer"
               />
               <p className="text-white text-lg font-medium text-center">
                 "The eternal struggle: Frontend vs Backend 😄"
@@ -295,7 +267,7 @@ const UIImportance = () => {
               <img
                 src="/lovable-uploads/85b39025-975a-4f42-a9be-a848e06e2df5.png"
                 alt="Frontend Developer Border Radius Meme"
-                className="w-full aspect-square object-cover rounded-lg mb-4 transition-all duration-500 hover:scale-110 hover:-rotate-2 hover:shadow-2xl hover:brightness-110 hover:contrast-110 cursor-pointer"
+                className="w-full aspect-square object-cover rounded-lg mb-4 transition-all duration-500 hover:scale-110 hover:-rotate-2 hover:shadow-2xl hover:brightness-110 hover:contrast-110 hover:saturate-150 cursor-pointer"
               />
               <p className="text-white text-lg font-medium text-center">
                 "When you apply border-radius and suddenly you're a designer 🎨"
@@ -305,14 +277,7 @@ const UIImportance = () => {
         </div>
 
         {/* Interactive Image Comparison */}
-        <div 
-          ref={caseStudyRef}
-          className={`text-center mb-16 transition-all duration-1000 delay-500 ${
-            caseStudyVisible 
-              ? 'opacity-100 translate-y-0' 
-              : 'opacity-0 translate-y-10'
-          }`}
-        >
+        <div ref={caseStudyRef} className={`text-center mb-16 ${caseStudyClasses}`}>
           <h2 className="text-3xl font-bold text-white mb-8">Real Impact Example</h2>
           <div className="max-w-4xl mx-auto">
             <ImageComparison
@@ -366,20 +331,13 @@ const UIImportance = () => {
         </div>
 
         {/* Final Meme Section */}
-        <div 
-          ref={memeRef}
-          className={`text-center transition-all duration-1000 delay-600 ${
-            memeVisible 
-              ? 'opacity-100 translate-y-0' 
-              : 'opacity-0 translate-y-10'
-          }`}
-        >
+        <div ref={memeRef} className={`text-center ${memeClasses}`}>
           <div className="grid md:grid-cols-2 gap-8">
             <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8">
               <img
                 src="/lovable-uploads/95e5f2c7-e1f7-4973-b922-3fe40b08fd13.png"
                 alt="Frontend Developer Responsibilities Meme"
-                className="w-full aspect-square object-cover rounded-lg mb-4 transition-all duration-500 hover:scale-110 hover:rotate-1 hover:shadow-2xl hover:brightness-110 hover:saturate-150 cursor-pointer"
+                className="w-full aspect-square object-cover rounded-lg mb-4 transition-all duration-500 hover:scale-110 hover:rotate-1 hover:shadow-2xl hover:brightness-110 hover:contrast-110 hover:saturate-150 cursor-pointer"
               />
               <p className="text-white text-lg font-medium">
                 "Just another day in the life of a frontend developer 🐕‍🦺"
@@ -390,7 +348,7 @@ const UIImportance = () => {
               <img
                 src="/lovable-uploads/3164b0d3-be03-44e6-a56f-46604753b888.png"
                 alt="Frontend Developer Challenge Meme"
-                className="w-full aspect-square object-cover rounded-lg mb-4 transition-all duration-500 hover:scale-110 hover:-rotate-1 hover:shadow-2xl hover:brightness-110 hover:saturate-150 cursor-pointer"
+                className="w-full aspect-square object-cover rounded-lg mb-4 transition-all duration-500 hover:scale-110 hover:-rotate-1 hover:shadow-2xl hover:brightness-110 hover:contrast-110 hover:saturate-150 cursor-pointer"
               />
               <p className="text-white text-lg font-medium">
                 "When they say 'it's just a frontend change' 😅"
