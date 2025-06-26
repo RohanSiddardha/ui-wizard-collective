@@ -1,16 +1,17 @@
-
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Zap, Code, Users, Target } from "lucide-react";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useScrollAnimation, useScrollReset } from "@/hooks/useScrollAnimation";
 
 const ModernTools = () => {
-  const { elementRef: headerRef, isVisible: headerVisible } = useScrollAnimation();
-  const { elementRef: takeawaysRef, isVisible: takeawaysVisible } = useScrollAnimation();
-  const { elementRef: workflowRef, isVisible: workflowVisible } = useScrollAnimation();
-  const { elementRef: toolsRef, isVisible: toolsVisible } = useScrollAnimation();
-  const { elementRef: memeRef, isVisible: memeVisible } = useScrollAnimation();
+  useScrollReset();
+  
+  const { elementRef: headerRef, animationClasses: headerAnimation } = useScrollAnimation(0.1, 'fade-up');
+  const { elementRef: takeawaysRef, animationClasses: takeawaysAnimation } = useScrollAnimation(0.1, 'scale');
+  const { elementRef: workflowRef, animationClasses: workflowAnimation } = useScrollAnimation(0.1, 'fade-left');
+  const { elementRef: toolsRef, animationClasses: toolsAnimation } = useScrollAnimation(0.1, 'fade-right');
+  const { elementRef: memeRef, animationClasses: memeAnimation } = useScrollAnimation(0.1, 'fade-up');
 
   const tools = [
     {
@@ -96,16 +97,12 @@ const ModernTools = () => {
         {/* Header */}
         <div 
           ref={headerRef}
-          className={`text-center mb-16 transition-all duration-1000 ${
-            headerVisible 
-              ? 'opacity-100 translate-y-0' 
-              : 'opacity-0 translate-y-10'
-          }`}
+          className={headerAnimation}
         >
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 text-center">
             Modern <span className="text-purple-400">Tools</span>
           </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed text-center mb-16">
             The cutting-edge stack that powers modern frontend development
           </p>
         </div>
@@ -113,11 +110,8 @@ const ModernTools = () => {
         {/* Key Takeaways */}
         <div 
           ref={takeawaysRef}
-          className={`mb-16 transition-all duration-1000 delay-200 ${
-            takeawaysVisible 
-              ? 'opacity-100 translate-y-0' 
-              : 'opacity-0 translate-y-10'
-          }`}
+          className={`mb-16 ${takeawaysAnimation}`}
+          style={{ animationDelay: '0.2s' }}
         >
           <h2 className="text-3xl font-bold text-white text-center mb-8">Key Takeaways to Emphasize</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
@@ -141,11 +135,8 @@ const ModernTools = () => {
         {/* Workflow Optimization */}
         <div 
           ref={workflowRef}
-          className={`mb-16 transition-all duration-1000 delay-300 ${
-            workflowVisible 
-              ? 'opacity-100 translate-y-0' 
-              : 'opacity-0 translate-y-10'
-          }`}
+          className={`mb-16 ${workflowAnimation}`}
+          style={{ animationDelay: '0.3s' }}
         >
           <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8">
             <h2 className="text-3xl font-bold text-white mb-6 text-center">
@@ -168,11 +159,8 @@ const ModernTools = () => {
         {/* Tools Grid */}
         <div 
           ref={toolsRef}
-          className={`mb-16 transition-all duration-1000 delay-400 ${
-            toolsVisible 
-              ? 'opacity-100 translate-y-0' 
-              : 'opacity-0 translate-y-10'
-          }`}
+          className={`mb-16 ${toolsAnimation}`}
+          style={{ animationDelay: '0.4s' }}
         >
           <h2 className="text-3xl font-bold text-white text-center mb-12">Essential Tools</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -217,32 +205,29 @@ const ModernTools = () => {
         {/* Meme Section */}
         <div 
           ref={memeRef}
-          className={`text-center transition-all duration-1000 delay-500 ${
-            memeVisible 
-              ? 'opacity-100 translate-y-0' 
-              : 'opacity-0 translate-y-10'
-          }`}
+          className={`text-center ${memeAnimation}`}
+          style={{ animationDelay: '0.5s' }}
         >
           <h2 className="text-3xl font-bold text-white mb-8">Developer Life</h2>
           <div className="grid md:grid-cols-2 gap-8">
-            <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8">
+            <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8 group">
               <img
                 src="/lovable-uploads/95e5f2c7-e1f7-4973-b922-3fe40b08fd13.png"
                 alt="Frontend Developer Responsibilities"
-                className="w-full aspect-square object-cover rounded-lg mb-4"
+                className="w-full aspect-square object-cover rounded-lg mb-4 transition-all duration-500 group-hover:scale-105 group-hover:rotate-1 group-hover:shadow-2xl group-hover:brightness-110"
               />
-              <p className="text-white text-lg font-medium">
+              <p className="text-white text-lg font-medium transition-all duration-300 group-hover:text-purple-400">
                 "Managing all these modern tools like... 🐕‍🦺"
               </p>
             </Card>
             
-            <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8">
+            <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8 group">
               <img
                 src="/lovable-uploads/3164b0d3-be03-44e6-a56f-46604753b888.png"
                 alt="Frontend vs Backend Complexity"
-                className="w-full aspect-square object-cover rounded-lg mb-4"
+                className="w-full aspect-square object-cover rounded-lg mb-4 transition-all duration-500 group-hover:scale-105 group-hover:-rotate-1 group-hover:shadow-2xl group-hover:brightness-110"
               />
-              <p className="text-white text-lg font-medium">
+              <p className="text-white text-lg font-medium transition-all duration-300 group-hover:text-cyan-400">
                 "So you're telling me you can't handle this in the frontend? 😏"
               </p>
             </Card>

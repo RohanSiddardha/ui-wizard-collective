@@ -1,14 +1,16 @@
 
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useScrollAnimation, useScrollReset } from "@/hooks/useScrollAnimation";
 
 const OldVsNew = () => {
-  const { elementRef: headerRef, isVisible: headerVisible } = useScrollAnimation();
-  const { elementRef: contentRef, isVisible: contentVisible } = useScrollAnimation();
-  const { elementRef: comparisonRef, isVisible: comparisonVisible } = useScrollAnimation();
-  const { elementRef: benefitsRef, isVisible: benefitsVisible } = useScrollAnimation();
-  const { elementRef: memeRef, isVisible: memeVisible } = useScrollAnimation();
+  useScrollReset();
+  
+  const { elementRef: headerRef, animationClasses: headerAnimation } = useScrollAnimation(0.1, 'fade-up');
+  const { elementRef: contentRef, animationClasses: contentAnimation } = useScrollAnimation(0.1, 'fade-left');
+  const { elementRef: comparisonRef, animationClasses: comparisonAnimation } = useScrollAnimation(0.1, 'scale');
+  const { elementRef: benefitsRef, animationClasses: benefitsAnimation } = useScrollAnimation(0.1, 'fade-right');
+  const { elementRef: memeRef, animationClasses: memeAnimation } = useScrollAnimation(0.1, 'fade-up');
 
   const comparisons = [
     {
@@ -49,16 +51,12 @@ const OldVsNew = () => {
         {/* Header */}
         <div 
           ref={headerRef}
-          className={`text-center mb-16 transition-all duration-1000 ${
-            headerVisible 
-              ? 'opacity-100 translate-y-0' 
-              : 'opacity-0 translate-y-10'
-          }`}
+          className={headerAnimation}
         >
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 text-center">
             <span className="text-red-400">Old</span> vs <span className="text-green-400">New</span>
           </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed text-center mb-16">
             How modern tools are revolutionizing the frontend development workflow
           </p>
         </div>
@@ -66,11 +64,8 @@ const OldVsNew = () => {
         {/* Comparison Cards */}
         <div 
           ref={comparisonRef}
-          className={`space-y-8 mb-16 transition-all duration-1000 delay-200 ${
-            comparisonVisible 
-              ? 'opacity-100 translate-y-0' 
-              : 'opacity-0 translate-y-10'
-          }`}
+          className={`space-y-8 mb-16 ${comparisonAnimation}`}
+          style={{ animationDelay: '0.2s' }}
         >
           {comparisons.map((comparison, index) => (
             <Card 
@@ -111,11 +106,8 @@ const OldVsNew = () => {
         {/* Main Content */}
         <div 
           ref={contentRef}
-          className={`transition-all duration-1000 delay-400 ${
-            contentVisible 
-              ? 'opacity-100 translate-y-0' 
-              : 'opacity-0 translate-y-10'
-          }`}
+          className={contentAnimation}
+          style={{ animationDelay: '0.4s' }}
         >
           <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8 mb-16">
             <h2 className="text-3xl font-bold text-white mb-6 text-center">
@@ -137,11 +129,8 @@ const OldVsNew = () => {
           {/* Benefits Grid */}
           <div 
             ref={benefitsRef}
-            className={`grid md:grid-cols-2 gap-8 mb-16 transition-all duration-1000 delay-500 ${
-              benefitsVisible 
-                ? 'opacity-100 translate-y-0' 
-                : 'opacity-0 translate-y-10'
-            }`}
+            className={`grid md:grid-cols-2 gap-8 mb-16 ${benefitsAnimation}`}
+            style={{ animationDelay: '0.5s' }}
           >
             <Card className="bg-white/10 backdrop-blur-md border-white/20 p-6">
               <div className="text-center">
@@ -187,32 +176,29 @@ const OldVsNew = () => {
           {/* Meme Section */}
           <div 
             ref={memeRef}
-            className={`text-center transition-all duration-1000 delay-600 ${
-              memeVisible 
-                ? 'opacity-100 translate-y-0' 
-                : 'opacity-0 translate-y-10'
-            }`}
+            className={`text-center ${memeAnimation}`}
+            style={{ animationDelay: '0.6s' }}
           >
             <h2 className="text-3xl font-bold text-white mb-8">The Reality Check</h2>
             <div className="grid md:grid-cols-2 gap-8">
-              <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8">
+              <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8 group">
                 <img
                   src="/lovable-uploads/ab99a6b3-1708-4bfd-afd9-cb3d4de962d3.png"
                   alt="Frontend vs Backend Meme"
-                  className="w-full aspect-square object-cover rounded-lg mb-4"
+                  className="w-full aspect-square object-cover rounded-lg mb-4 transition-all duration-500 group-hover:scale-110 group-hover:rotate-2 group-hover:shadow-2xl"
                 />
-                <p className="text-white text-lg font-medium">
+                <p className="text-white text-lg font-medium transition-all duration-300 group-hover:text-purple-400">
                   "Frontend vs Backend: The eternal perspective difference 😄"
                 </p>
               </Card>
               
-              <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8">
+              <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8 group">
                 <img
                   src="/lovable-uploads/85b39025-975a-4f42-a9be-a848e06e2df5.png"
                   alt="Frontend Developer Designer Meme"
-                  className="w-full aspect-square object-cover rounded-lg mb-4"
+                  className="w-full aspect-square object-cover rounded-lg mb-4 transition-all duration-500 group-hover:scale-110 group-hover:-rotate-2 group-hover:shadow-2xl"
                 />
-                <p className="text-white text-lg font-medium">
+                <p className="text-white text-lg font-medium transition-all duration-300 group-hover:text-green-400">
                   "After adding border-radius: 'I'm something of a designer myself' 🎨"
                 </p>
               </Card>

@@ -6,19 +6,21 @@ import { SpinWheel } from "@/components/games/SpinWheel";
 import { MemoryGame } from "@/components/games/MemoryGame";
 import { WordGame } from "@/components/games/WordGame";
 import { Link } from "react-router-dom";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useScrollAnimation, useScrollReset } from "@/hooks/useScrollAnimation";
 
 const Index = () => {
+  useScrollReset();
+  
   const [isQuizOpen, setIsQuizOpen] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
 
-  const { elementRef: heroRef, isVisible: heroVisible } = useScrollAnimation();
-  const { elementRef: navigationRef, isVisible: navigationVisible } = useScrollAnimation();
-  const { elementRef: teamRef, isVisible: teamVisible } = useScrollAnimation();
-  const { elementRef: gamesRef, isVisible: gamesVisible } = useScrollAnimation();
+  const { elementRef: heroRef, animationClasses: heroAnimation } = useScrollAnimation(0.1, 'fade-up');
+  const { elementRef: navigationRef, animationClasses: navigationAnimation } = useScrollAnimation(0.1, 'scale');
+  const { elementRef: teamRef, animationClasses: teamAnimation } = useScrollAnimation(0.1, 'fade-left');
+  const { elementRef: gamesRef, animationClasses: gamesAnimation } = useScrollAnimation(0.1, 'fade-right');
 
   const quizQuestions = [
     {
@@ -97,21 +99,17 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pb-8">
       {/* Hero Section */}
       <section 
         ref={heroRef}
-        className={`pt-20 pb-16 px-4 transition-all duration-1000 ${
-          heroVisible 
-            ? 'opacity-100 translate-y-0' 
-            : 'opacity-0 translate-y-10'
-        }`}
+        className={`pt-20 pb-16 px-4 ${heroAnimation}`}
       >
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-6xl md:text-8xl font-bold text-white mb-6 animate-fade-in">
+          <h1 className="text-6xl md:text-8xl font-bold text-white mb-6">
             UI<span className="text-purple-400 animate-pulse">Trio</span>
           </h1>
-          <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto animate-fade-in">
+          <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
             Presenting the future of user interface development through modern tools and innovative approaches
           </p>
         </div>
@@ -120,11 +118,8 @@ const Index = () => {
       {/* Interactive Navigation Section */}
       <section 
         ref={navigationRef}
-        className={`py-16 px-4 transition-all duration-1000 delay-300 ${
-          navigationVisible 
-            ? 'opacity-100 translate-y-0' 
-            : 'opacity-0 translate-y-10'
-        }`}
+        className={`py-16 px-4 ${navigationAnimation}`}
+        style={{ animationDelay: '0.2s' }}
       >
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-white text-center mb-12">
@@ -155,11 +150,8 @@ const Index = () => {
       {/* Team Section */}
       <section 
         ref={teamRef}
-        className={`py-16 px-4 transition-all duration-1000 delay-500 ${
-          teamVisible 
-            ? 'opacity-100 translate-y-0' 
-            : 'opacity-0 translate-y-10'
-        }`}
+        className={`py-16 px-4 ${teamAnimation}`}
+        style={{ animationDelay: '0.4s' }}
       >
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold text-white mb-12">
@@ -185,11 +177,8 @@ const Index = () => {
       {/* Interactive Games Section */}
       <section 
         ref={gamesRef}
-        className={`py-16 px-4 transition-all duration-1000 delay-700 ${
-          gamesVisible 
-            ? 'opacity-100 translate-y-0' 
-            : 'opacity-0 translate-y-10'
-        }`}
+        className={`py-16 px-4 ${gamesAnimation}`}
+        style={{ animationDelay: '0.6s' }}
       >
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold text-white mb-12">
