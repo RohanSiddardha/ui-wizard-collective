@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { ImageComparison } from "@/components/ImageComparison";
 
 const UIImportance = () => {
   const [counters, setCounters] = useState({
@@ -135,10 +136,10 @@ const UIImportance = () => {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 transition-all duration-1000 opacity-0 translate-y-10 animate-fade-in">
             Why <span className="text-purple-400">UI</span> is Everything
           </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed transition-all duration-1000 delay-200 opacity-0 translate-y-10 animate-fade-in">
             In today's digital world, your user interface isn't just a pretty face—it's your most powerful business tool.
           </p>
         </div>
@@ -155,7 +156,7 @@ const UIImportance = () => {
           {stats.map((stat, index) => (
             <Card 
               key={stat.title}
-              className={`bg-white/10 backdrop-blur-md border-white/20 p-6 text-center transition-all duration-500 ${
+              className={`bg-white/10 backdrop-blur-md border-white/20 p-6 text-center transition-all duration-500 hover:scale-105 hover:bg-white/20 ${
                 currentStat === index ? 'scale-105 ring-2 ring-purple-400' : ''
               }`}
             >
@@ -283,7 +284,7 @@ const UIImportance = () => {
               <img
                 src="/lovable-uploads/ab99a6b3-1708-4bfd-afd9-cb3d4de962d3.png"
                 alt="Frontend vs Backend Developer Meme"
-                className="w-full aspect-square object-cover rounded-lg mb-4"
+                className="w-full aspect-square object-cover rounded-lg mb-4 transition-all duration-500 hover:scale-110 hover:rotate-2 hover:shadow-2xl hover:brightness-110 hover:contrast-110 cursor-pointer"
               />
               <p className="text-white text-lg font-medium text-center">
                 "The eternal struggle: Frontend vs Backend 😄"
@@ -294,7 +295,7 @@ const UIImportance = () => {
               <img
                 src="/lovable-uploads/85b39025-975a-4f42-a9be-a848e06e2df5.png"
                 alt="Frontend Developer Border Radius Meme"
-                className="w-full aspect-square object-cover rounded-lg mb-4"
+                className="w-full aspect-square object-cover rounded-lg mb-4 transition-all duration-500 hover:scale-110 hover:-rotate-2 hover:shadow-2xl hover:brightness-110 hover:contrast-110 cursor-pointer"
               />
               <p className="text-white text-lg font-medium text-center">
                 "When you apply border-radius and suddenly you're a designer 🎨"
@@ -303,7 +304,7 @@ const UIImportance = () => {
           </div>
         </div>
 
-        {/* Case Study Example */}
+        {/* Interactive Image Comparison */}
         <div 
           ref={caseStudyRef}
           className={`text-center mb-16 transition-all duration-1000 delay-500 ${
@@ -313,15 +314,20 @@ const UIImportance = () => {
           }`}
         >
           <h2 className="text-3xl font-bold text-white mb-8">Real Impact Example</h2>
-          <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8 max-w-4xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
+          <div className="max-w-4xl mx-auto">
+            <ImageComparison
+              beforeImage="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=400&fit=crop"
+              afterImage="https://images.unsplash.com/photo-1460574283810-2aab119d8511?w=800&h=400&fit=crop"
+              beforeAlt="Poor UI Example"
+              afterAlt="Improved UI Example"
+              beforeLabel="Poor UI"
+              afterLabel="Great UI"
+            />
+            
+            {/* Stats Below Comparison */}
+            <div className="grid md:grid-cols-2 gap-8 mt-8">
+              <Card className="bg-white/10 backdrop-blur-md border-white/20 p-6">
                 <h3 className="text-xl font-bold text-red-400 mb-4">Before: Poor UI</h3>
-                <img
-                  src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=400&fit=crop"
-                  alt="Before UI"
-                  className="w-full aspect-square object-cover rounded-lg mb-4 grayscale"
-                />
                 <div className="space-y-2 text-left">
                   <div className="flex justify-between">
                     <span className="text-gray-300">Bounce Rate:</span>
@@ -336,14 +342,10 @@ const UIImportance = () => {
                     <Badge variant="destructive">3.2/5</Badge>
                   </div>
                 </div>
-              </div>
-              <div>
+              </Card>
+              
+              <Card className="bg-white/10 backdrop-blur-md border-white/20 p-6">
                 <h3 className="text-xl font-bold text-green-400 mb-4">After: Great UI</h3>
-                <img
-                  src="https://images.unsplash.com/photo-1460574283810-2aab119d8511?w=400&h=400&fit=crop"
-                  alt="After UI"
-                  className="w-full aspect-square object-cover rounded-lg mb-4"
-                />
                 <div className="space-y-2 text-left">
                   <div className="flex justify-between">
                     <span className="text-gray-300">Bounce Rate:</span>
@@ -358,9 +360,9 @@ const UIImportance = () => {
                     <Badge className="bg-green-500">4.8/5</Badge>
                   </div>
                 </div>
-              </div>
+              </Card>
             </div>
-          </Card>
+          </div>
         </div>
 
         {/* Final Meme Section */}
@@ -377,7 +379,7 @@ const UIImportance = () => {
               <img
                 src="/lovable-uploads/95e5f2c7-e1f7-4973-b922-3fe40b08fd13.png"
                 alt="Frontend Developer Responsibilities Meme"
-                className="w-full aspect-square object-cover rounded-lg mb-4"
+                className="w-full aspect-square object-cover rounded-lg mb-4 transition-all duration-500 hover:scale-110 hover:rotate-1 hover:shadow-2xl hover:brightness-110 hover:saturate-150 cursor-pointer"
               />
               <p className="text-white text-lg font-medium">
                 "Just another day in the life of a frontend developer 🐕‍🦺"
@@ -388,7 +390,7 @@ const UIImportance = () => {
               <img
                 src="/lovable-uploads/3164b0d3-be03-44e6-a56f-46604753b888.png"
                 alt="Frontend Developer Challenge Meme"
-                className="w-full aspect-square object-cover rounded-lg mb-4"
+                className="w-full aspect-square object-cover rounded-lg mb-4 transition-all duration-500 hover:scale-110 hover:-rotate-1 hover:shadow-2xl hover:brightness-110 hover:saturate-150 cursor-pointer"
               />
               <p className="text-white text-lg font-medium">
                 "When they say 'it's just a frontend change' 😅"
