@@ -1,5 +1,5 @@
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Card } from '@/components/ui/card';
 
 interface ImageComparisonProps {
@@ -22,62 +22,105 @@ export const ImageComparison: React.FC<ImageComparisonProps> = ({
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const animationFrameRef = useRef<number>();
 
-  const handleMouseDown = () => {
+  const updateSliderPosition = useCallback((clientX: number) => {
+    if (!containerRef.current) return;
+    
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+    
+    // Cancel any pending animation frame to prevent lag
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+    }
+    
+    // Use requestAnimationFrame for smooth updates
+    animationFrameRef.current = requestAnimationFrame(() => {
+      setSliderPosition(percentage);
+    });
+  }, []);
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
     setIsDragging(true);
-  };
+    updateSliderPosition(e.clientX);
+  }, [updateSliderPosition]);
 
-  const handleMouseUp = () => {
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+    updateSliderPosition(e.touches[0].clientX);
+  }, [updateSliderPosition]);
+
+  const handleEnd = useCallback(() => {
     setIsDragging(false);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || !containerRef.current) return;
-    
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    setSliderPosition(percentage);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging || !containerRef.current) return;
-    
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = e.touches[0].clientX - rect.left;
-    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    setSliderPosition(percentage);
-  };
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+    }
+  }, []);
 
   useEffect(() => {
-    const handleGlobalMouseUp = () => setIsDragging(false);
     const handleGlobalMouseMove = (e: MouseEvent) => {
-      if (!isDragging || !containerRef.current) return;
-      
-      const rect = containerRef.current.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-      setSliderPosition(percentage);
+      if (!isDragging) return;
+      e.preventDefault();
+      updateSliderPosition(e.clientX);
     };
 
+    const handleGlobalTouchMove = (e: TouchEvent) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      updateSliderPosition(e.touches[0].clientX);
+    };
+
+    const handleGlobalMouseUp = () => handleEnd();
+    const handleGlobalTouchEnd = () => handleEnd();
+
     if (isDragging) {
-      document.addEventListener('mousemove', handleGlobalMouseMove);
+      document.addEventListener('mousemove', handleGlobalMouseMove, { passive: false });
+      document.addEventListener('touchmove', handleGlobalTouchMove, { passive: false });
       document.addEventListener('mouseup', handleGlobalMouseUp);
+      document.addEventListener('touchend', handleGlobalTouchEnd);
+      
+      // Add cursor style to body when dragging
+      document.body.style.cursor = 'grabbing';
+      document.body.style.userSelect = 'none';
     }
 
     return () => {
       document.removeEventListener('mousemove', handleGlobalMouseMove);
+      document.removeEventListener('touchmove', handleGlobalTouchMove);
       document.removeEventListener('mouseup', handleGlobalMouseUp);
+      document.removeEventListener('touchend', handleGlobalTouchEnd);
+      
+      // Reset cursor and selection
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+      
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
     };
-  }, [isDragging]);
+  }, [isDragging, updateSliderPosition, handleEnd]);
+
+  const handleContainerClick = useCallback((e: React.MouseEvent) => {
+    if (!isDragging) {
+      updateSliderPosition(e.clientX);
+    }
+  }, [isDragging, updateSliderPosition]);
+
+  const handleSliderChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    setSliderPosition(value);
+  }, []);
 
   return (
-    <Card className="relative overflow-hidden bg-white/10 backdrop-blur-md border-white/20 cursor-grab active:cursor-grabbing">
+    <Card className="relative overflow-hidden bg-white/10 backdrop-blur-md border-white/20">
       <div
         ref={containerRef}
-        className="relative w-full h-96 select-none"
-        onMouseMove={handleMouseMove}
-        onTouchMove={handleTouchMove}
+        className="relative w-full h-96 select-none cursor-crosshair"
+        onClick={handleContainerClick}
       >
         {/* After Image (Full) */}
         <div className="absolute inset-0">
@@ -87,7 +130,7 @@ export const ImageComparison: React.FC<ImageComparisonProps> = ({
             className="w-full h-full object-cover"
             draggable={false}
           />
-          <div className="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+          <div className="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">
             {afterLabel}
           </div>
         </div>
@@ -103,30 +146,86 @@ export const ImageComparison: React.FC<ImageComparisonProps> = ({
             className="w-full h-full object-cover"
             draggable={false}
           />
-          <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+          <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">
             {beforeLabel}
           </div>
         </div>
 
         {/* Slider Line */}
         <div
-          className="absolute top-0 bottom-0 w-1 bg-white shadow-lg z-10 transition-all duration-100"
+          className="absolute top-0 bottom-0 w-0.5 bg-white shadow-2xl z-10 pointer-events-none"
           style={{ left: `${sliderPosition}%`, transform: 'translateX(-50%)' }}
         >
           {/* Slider Handle */}
           <div
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-lg border-2 border-gray-300 cursor-grab active:cursor-grabbing hover:scale-110 transition-transform duration-200 flex items-center justify-center"
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-2xl border-4 border-gray-200 cursor-grab active:cursor-grabbing hover:scale-110 transition-all duration-150 flex items-center justify-center pointer-events-auto"
             onMouseDown={handleMouseDown}
-            onTouchStart={() => setIsDragging(true)}
-            onTouchEnd={() => setIsDragging(false)}
+            onTouchStart={handleTouchStart}
+            style={{ touchAction: 'none' }}
           >
-            <div className="w-1 h-4 bg-gray-400 rounded-full"></div>
+            <div className="flex space-x-0.5">
+              <div className="w-0.5 h-4 bg-gray-400 rounded-full"></div>
+              <div className="w-0.5 h-4 bg-gray-400 rounded-full"></div>
+            </div>
           </div>
         </div>
 
-        {/* Hover Instructions */}
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/50 text-white px-4 py-2 rounded-full text-sm opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-          Drag to compare
+        {/* Instructions */}
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-full text-sm backdrop-blur-sm">
+          Drag to compare or click anywhere
+        </div>
+      </div>
+
+      {/* Horizontal Slider Control */}
+      <div className="p-4 bg-black/20 backdrop-blur-sm">
+        <div className="flex items-center space-x-4">
+          <span className="text-red-400 text-sm font-medium whitespace-nowrap">{beforeLabel}</span>
+          <div className="flex-1 relative">
+            <input
+              type="range"
+              min="0"
+              max="100"
+              step="0.1"
+              value={sliderPosition}
+              onChange={handleSliderChange}
+              className="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer slider"
+              style={{
+                background: `linear-gradient(to right, #ef4444 0%, #ef4444 ${sliderPosition}%, #22c55e ${sliderPosition}%, #22c55e 100%)`
+              }}
+            />
+            <style jsx>{`
+              .slider::-webkit-slider-thumb {
+                appearance: none;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background: white;
+                border: 2px solid #ccc;
+                cursor: pointer;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+                transition: all 0.15s ease;
+              }
+              .slider::-webkit-slider-thumb:hover {
+                transform: scale(1.1);
+                box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+              }
+              .slider::-moz-range-thumb {
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background: white;
+                border: 2px solid #ccc;
+                cursor: pointer;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+              }
+            `}</style>
+          </div>
+          <span className="text-green-400 text-sm font-medium whitespace-nowrap">{afterLabel}</span>
+        </div>
+        <div className="text-center mt-2">
+          <span className="text-gray-300 text-xs">
+            {Math.round(sliderPosition)}% • Use slider or drag the handle above
+          </span>
         </div>
       </div>
     </Card>
