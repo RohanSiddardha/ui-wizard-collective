@@ -9,6 +9,7 @@ const OldVsNew = () => {
   const { elementRef: headerRef, isVisible: headerVisible } = useScrollAnimation();
   const { elementRef: comparisonRef, isVisible: comparisonVisible } = useScrollAnimation();
   const { elementRef: statsRef, isVisible: statsVisible } = useScrollAnimation();
+  const { elementRef: rethinkingRef, isVisible: rethinkingVisible } = useScrollAnimation();
   const { elementRef: memesRef, isVisible: memesVisible } = useScrollAnimation();
 
   const comparisons = [
@@ -212,10 +213,93 @@ const OldVsNew = () => {
           </div>
         </div>
 
+        {/* New Rethinking UI Development Section */}
+        <div 
+          ref={rethinkingRef}
+          className={`mb-16 transition-all duration-1000 delay-600 ${
+            rethinkingVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
+          <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8">
+            <div className="text-center mb-8">
+              <div className="text-4xl mb-4">🎞️</div>
+              <h2 className="text-4xl font-bold text-white mb-4">Rethinking UI Development</h2>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-8 mb-8">
+              <div>
+                <h3 className="text-2xl font-bold text-purple-400 mb-6">Traditional Approach</h3>
+                <ul className="space-y-4">
+                  <li className="flex items-start text-gray-300">
+                    <span className="text-red-400 mr-3 mt-1">•</span>
+                    <span>Manual design-to-code handoff</span>
+                  </li>
+                  <li className="flex items-start text-gray-300">
+                    <span className="text-red-400 mr-3 mt-1">•</span>
+                    <span>Hand-coded layout from scratch</span>
+                  </li>
+                  <li className="flex items-start text-gray-300">
+                    <span className="text-red-400 mr-3 mt-1">•</span>
+                    <span>Pixel-perfect tweaking</span>
+                  </li>
+                  <li className="flex items-start text-gray-300">
+                    <span className="text-red-400 mr-3 mt-1">•</span>
+                    <span>Long dev/design feedback loops</span>
+                  </li>
+                  <li className="flex items-start text-gray-300">
+                    <span className="text-red-400 mr-3 mt-1">•</span>
+                    <span>Time spent on boilerplate</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <div>
+                <h3 className="text-2xl font-bold text-green-400 mb-6">Modern Approach</h3>
+                <ul className="space-y-4">
+                  <li className="flex items-start text-gray-300">
+                    <span className="text-green-400 mr-3 mt-1">→</span>
+                    <span>Automated with Anima</span>
+                  </li>
+                  <li className="flex items-start text-gray-300">
+                    <span className="text-green-400 mr-3 mt-1">→</span>
+                    <span>Auto-generated responsive UI</span>
+                  </li>
+                  <li className="flex items-start text-gray-300">
+                    <span className="text-green-400 mr-3 mt-1">→</span>
+                    <span>Design fidelity from day one</span>
+                  </li>
+                  <li className="flex items-start text-gray-300">
+                    <span className="text-green-400 mr-3 mt-1">→</span>
+                    <span>Rapid iteration with live previews</span>
+                  </li>
+                  <li className="flex items-start text-gray-300">
+                    <span className="text-green-400 mr-3 mt-1">→</span>
+                    <span>Focus on logic, UX, and performance</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            
+            <div className="bg-gray-900/50 p-6 rounded-lg">
+              <p className="text-gray-300 leading-relaxed mb-4">
+                "UI development has changed — or at least, it should. The traditional approach involved taking static Figma files, writing layout code from scratch, and spending a lot of time tweaking visuals and going back and forth with designers. It worked, but it was slow and error-prone."
+              </p>
+              <p className="text-gray-300 leading-relaxed mb-4">
+                "I've rethought that entire process using Anima, a tool that automates design-to-code conversion. With Anima, I generate responsive, high-fidelity UI code directly from Figma. This means I spend less time translating designs, and more time focusing on the parts of the UI that matter most — like interactivity, performance, and edge cases."
+              </p>
+              <p className="text-gray-300 leading-relaxed">
+                <strong className="text-white">"The result?"</strong> Faster delivery, fewer design bugs, and a smoother workflow with the design team. This shift in process isn't just about speed — it's about unlocking higher-value work as a frontend engineer.
+              </p>
+            </div>
+          </Card>
+        </div>
+
         {/* Memes Section */}
         <div 
           ref={memesRef}
-          className={`transition-all duration-1000 delay-600 ${
+          className={`transition-all duration-1000 delay-800 ${
             memesVisible 
               ? 'opacity-100 translate-y-0' 
               : 'opacity-0 translate-y-10'
@@ -229,7 +313,7 @@ const OldVsNew = () => {
               <img
                 src="/lovable-uploads/ab99a6b3-1708-4bfd-afd9-cb3d4de962d3.png"
                 alt="Frontend vs Backend Developer Meme"
-                className="w-full aspect-square object-cover rounded-lg mb-4"
+                className="w-full aspect-square object-cover rounded-lg mb-4 transition-all duration-500 hover:scale-110 hover:rotate-2 hover:shadow-2xl hover:brightness-110 hover:contrast-110 hover:saturate-150 cursor-pointer"
               />
               <p className="text-white text-lg font-medium text-center">
                 "Back then, we had to walk uphill both ways... in the DOM 🏔️"
@@ -240,7 +324,7 @@ const OldVsNew = () => {
               <img
                 src="/lovable-uploads/85b39025-975a-4f42-a9be-a848e06e2df5.png"
                 alt="Frontend Developer Border Radius Meme"
-                className="w-full aspect-square object-cover rounded-lg mb-4"
+                className="w-full aspect-square object-cover rounded-lg mb-4 transition-all duration-500 hover:scale-110 hover:-rotate-2 hover:shadow-2xl hover:brightness-110 hover:contrast-110 hover:saturate-150 cursor-pointer"
               />
               <p className="text-white text-lg font-medium text-center">
                 "Internet Explorer compatibility... the stuff of nightmares 💀"

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -11,6 +10,12 @@ const UIImportance = () => {
     firstImpression: 0,
     engagement: 0,
     conversion: 0
+  });
+
+  const [progressValues, setProgressValues] = useState({
+    satisfaction: 0,
+    completion: 0,
+    returnUser: 0
   });
 
   const [currentStat, setCurrentStat] = useState(0);
@@ -63,6 +68,32 @@ const UIImportance = () => {
     }, 500);
 
     return () => clearTimeout(timer);
+  }, []);
+
+  // New effect for dynamic progress bars based on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      // Calculate scroll progress (0 to 1)
+      const scrollProgress = Math.min(scrollPosition / (documentHeight - windowHeight), 1);
+      
+      // Animate progress bars based on scroll position
+      const baseProgress = scrollProgress * 100;
+      
+      setProgressValues({
+        satisfaction: Math.min(baseProgress * 0.94, 94),
+        completion: Math.min(baseProgress * 0.87, 87),
+        returnUser: Math.min(baseProgress * 0.76, 76)
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial call
+    
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const principles = [
@@ -165,30 +196,30 @@ const UIImportance = () => {
           ))}
         </div>
 
-        {/* Progress Indicators */}
+        {/* Progress Indicators - Now Dynamic */}
         <div ref={progressRef} className={`mb-16 ${progressClasses}`}>
           <h2 className="text-3xl font-bold text-white text-center mb-8">Impact Metrics</h2>
           <div className="space-y-6 max-w-2xl mx-auto">
             <div>
               <div className="flex justify-between text-white mb-2">
                 <span>User Satisfaction</span>
-                <span>94%</span>
+                <span>{Math.round(progressValues.satisfaction)}%</span>
               </div>
-              <Progress value={94} className="h-3" />
+              <Progress value={progressValues.satisfaction} className="h-3" />
             </div>
             <div>
               <div className="flex justify-between text-white mb-2">
                 <span>Task Completion Rate</span>
-                <span>87%</span>
+                <span>{Math.round(progressValues.completion)}%</span>
               </div>
-              <Progress value={87} className="h-3" />
+              <Progress value={progressValues.completion} className="h-3" />
             </div>
             <div>
               <div className="flex justify-between text-white mb-2">
                 <span>Return User Rate</span>
-                <span>76%</span>
+                <span>{Math.round(progressValues.returnUser)}%</span>
               </div>
-              <Progress value={76} className="h-3" />
+              <Progress value={progressValues.returnUser} className="h-3" />
             </div>
           </div>
         </div>
