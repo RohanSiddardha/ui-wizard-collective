@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Card } from '@/components/ui/card';
 
@@ -188,37 +187,19 @@ export const ImageComparison: React.FC<ImageComparisonProps> = ({
               step="0.1"
               value={sliderPosition}
               onChange={handleSliderChange}
-              className="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer slider"
+              className="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer
+                         [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 
+                         [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white 
+                         [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-gray-300 
+                         [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:shadow-lg
+                         [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:transition-transform
+                         [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:rounded-full 
+                         [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-gray-300 
+                         [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:shadow-lg"
               style={{
                 background: `linear-gradient(to right, #ef4444 0%, #ef4444 ${sliderPosition}%, #22c55e ${sliderPosition}%, #22c55e 100%)`
               }}
             />
-            <style jsx>{`
-              .slider::-webkit-slider-thumb {
-                appearance: none;
-                width: 20px;
-                height: 20px;
-                border-radius: 50%;
-                background: white;
-                border: 2px solid #ccc;
-                cursor: pointer;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-                transition: all 0.15s ease;
-              }
-              .slider::-webkit-slider-thumb:hover {
-                transform: scale(1.1);
-                box-shadow: 0 6px 12px rgba(0,0,0,0.4);
-              }
-              .slider::-moz-range-thumb {
-                width: 20px;
-                height: 20px;
-                border-radius: 50%;
-                background: white;
-                border: 2px solid #ccc;
-                cursor: pointer;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-              }
-            `}</style>
           </div>
           <span className="text-green-400 text-sm font-medium whitespace-nowrap">{afterLabel}</span>
         </div>
